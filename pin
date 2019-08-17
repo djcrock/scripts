@@ -1,0 +1,41 @@
+#!/bin/bash
+cluster_member=false;
+2>/dev/null 1>&2 ipfs-cluster-ctl id
+success=$?
+if [[ $success -eq 0 ]]; then
+	cluster_member=true
+elif [[ -z $IPFS_CLUSTER_HOST ]] || [[ -z $IPFS_CLUSTER_SECRET ]]; then
+	echo "Missing IPFS cluster environment variables"
+	exit 1
+fi
+
+pin_file=$1
+pin_basename=$(basename -- "$pin_file")
+name=${2:-$pin_basename}
+
+if [[ -z "$pin_file" ]]; then
+	echo "File required"
+	exit 1
+fi
+
+cid=$(ipfs add -Q "$1")
+success=$?
+
+if [[ $success -ne 0 ]]; then
+	echo "Failed to pin $pin_file locally"
+	exit 1
+fi
+
+if [[ "$cluster_member" = true ]]; then
+	ipfs-cluster-ctl pin add --no-status --name $name $cid
+else
+	ipfs-cluster-ctl --host $IPFS_CLUSTER_HOST --secret $IPFS_CLUSTER_SECRET pin add --no-status --name $name $cid
+success=$?
+fi
+
+if [[ $success -ne 0 ]]; then
+	echo "Failed to pin $pin_file to cluster"
+	exit 1
+fi
+
+echo "https://ipfs.io/ipfs/$cid"
