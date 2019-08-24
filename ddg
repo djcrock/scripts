@@ -1,0 +1,3 @@
+#!/bin/sh
+set +x
+elinks "https://duckduckgo.com/lite/?q=$@"
