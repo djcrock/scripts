@@ -1,0 +1,2 @@
+#!/bin/sh
+fzf --print0 -1 -q ${1:-''} | xargs -0 -r mpv

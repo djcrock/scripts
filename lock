@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# TODO: Make this automatically adapt to any number of displays
+#DISPLAYS=$(swaymsg -t get_outputs | jq '.[].name')
+
+DISPLAY1=DP-1
+DISPLAY2=DVI-I-1
+IMAGE1=/tmp/lockscreen1.png
+IMAGE2=/tmp/lockscreen2.png
+
+BLURTYPE="2x8"
+
+grim -o $DISPLAY1 $IMAGE1
+grim -o $DISPLAY2 $IMAGE2
+convert -scale 10% -scale 1000% $IMAGE1 $IMAGE1
+convert -scale 10% -scale 1000% $IMAGE2 $IMAGE2
+swaylock --daemonize -i $DISPLAY1:$IMAGE1 -i $DISPLAY2:$IMAGE2
+rm $IMAGE1 $IMAGE2

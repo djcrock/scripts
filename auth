@@ -1,0 +1,2 @@
+#!/bin/sh
+ykman oath list | fzf --print0 -1 -q ${1:-''} | xargs -0 -r ykman oath code
