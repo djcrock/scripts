@@ -1,0 +1,15 @@
+#!/bin/bash
+DATA=$(cat)
+EXITCODES=""
+HOOKNAME=$(basename $0)
+GIT_DIR=$(dirname $0)
+
+for HOOK in ${GIT_DIR}/hooks/${HOOKNAME}.d/*; do
+	test -x "$HOOK" || continue
+	echo "${DATA}" | "${HOOK}"
+	EXITCODES="${EXITCODES} $?"
+done
+
+for CODE in ${EXITCODES}; do
+	[ ${CODE} -eq 0 ] || exit ${CODE}
+done

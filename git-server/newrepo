@@ -1,0 +1,12 @@
+#!/bin/bash
+
+SCRIPTS_DIR=$(dirname $(realpath $0))
+GIT_DIR=${HOME}/${1}
+DESCRIPTION=$2
+
+cd ${HOME}
+git init --bare ${GIT_DIR}
+mkdir ${GIT_DIR}/hooks/post-receive.d
+ln -sf ${SCRIPTS_DIR}/hook ${GIT_DIR}/hooks/post-receive
+ln -sf ${SCRIPTS_DIR}/post-receive.d/update-stagit ${GIT_DIR}/hooks/post-receive.d/
+echo ${DESCRIPTION} > ${GIT_DIR}/description
