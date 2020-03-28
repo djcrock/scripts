@@ -1,0 +1,23 @@
+#!/bin/sh
+
+SCRIPTS_DIR=$(dirname "$(realpath "$0")")
+GIT_DIR=${GIT_DIR:-$(pwd)}
+BRANCH="master"
+HTML_DIR="/var/www/git.crocker.im/html"
+
+while read old new ref; do
+	if [ "$ref" = "refs/heads/${BRANCH}" ]; then
+		TEMP_WORK_DIR=$(mktemp -d)
+		git --work-tree="$TEMP_WORK_DIR" --git-dir="$GIT_DIR" checkout -f
+		cd "$TEMP_WORK_DIR"
+		make
+		cp stagit "${HOME}/bin/"
+		cp stagit-index "${HOME}/bin/"
+		chmod -R +x "${HOME}/bin"
+		rm -rf "${HTML_DIR:?}"/*
+		cp style.css logo.png favicon.png "$HTML_DIR"
+		cd "$GIT_DIR"
+		rm -rf "$TEMP_WORK_DIR"
+		"${SCRIPTS_DIR}/update-stagit-all"
+	fi
+done
