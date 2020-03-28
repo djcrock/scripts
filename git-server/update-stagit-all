@@ -1,0 +1,9 @@
+#!/bin/sh
+
+SCRIPTS_DIR=$(dirname "$(realpath "$0")")
+
+for dir in "${HOME}"/*; do
+	if [ -f "${dir}/git-daemon-export-ok" ]; then
+		"${SCRIPTS_DIR}/update-stagit" "$(basename "$dir")"
+	fi
+done
