@@ -1,4 +1,10 @@
 #!/bin/sh
+#
+# Git hook that iterates over hook scripts in a corresponding directory.
+#
+# e.g. If the hook's name is post-receive, it will call all scripts in the
+# post-receive.d directory
+
 DATA=$(cat)
 EXIT_CODE=0
 HOOK_NAME=$(basename "$0")
