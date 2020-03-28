@@ -1,3 +1,0 @@
-#!/bin/sh
-
-ykman oath code | fzf -f "$1"
