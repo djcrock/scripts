@@ -34,6 +34,7 @@ update_stagit_index()
 		xargs -d '\n' dirname |
 		sort |
 		xargs -d '\n' stagit-index > "${destdir}/index.html"
+		gzip -v -n -k -f --best "${destdir}/index.html"
 }
 
 if ! test -d "${dir}"; then
@@ -91,7 +92,10 @@ update_stagit_index
 # make pages.
 stagit -c "${cachefile}" "${reposdir}/${reponame}"
 
+find "${destdir}/${reponame}" -type f -name '*.html' -exec gzip -v -n -k -f --best '{}' \;
+
 ln -sf log.html index.html
+ln -sf log.html.gz index.html.gz
 ln -sf ../style.css style.css
 ln -sf ../logo.png logo.png
 ln -sf ../favicon.png favicon.png
