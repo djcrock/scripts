@@ -6,7 +6,7 @@ DESCRIPTION=$2
 
 cd "$HOME" || exit 1
 git init --bare "$GIT_DIR"
-mkdir "${GIT_DIR}/hooks/post-receive.d"
+mkdir -p "${GIT_DIR}/hooks/post-receive.d"
 ln -sf "${SCRIPTS_DIR}/hook" "${GIT_DIR}/hooks/post-receive"
 ln -sf "${SCRIPTS_DIR}/update-stagit" "${GIT_DIR}/hooks/post-receive.d/"
 echo "$DESCRIPTION" > "${GIT_DIR}/description"

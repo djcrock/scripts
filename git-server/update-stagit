@@ -77,7 +77,9 @@ if test "${force}" = "1"; then
 fi
 
 # make index.
-#stagit-index "${reposdir}/"*/ > "${destdir}/index.html"
+find "$reposdir" -type f -name git-daemon-export-ok |
+	xargs -d '\n' dirname |
+	xargs -d '\n' stagit-index > "${destdir}/index.html"
 
 # make pages.
 stagit -c "${cachefile}" "${reposdir}/${r}"
