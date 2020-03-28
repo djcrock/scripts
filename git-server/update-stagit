@@ -32,6 +32,7 @@ update_stagit_index()
 {
 	find "$reposdir" -type f -name git-daemon-export-ok |
 		xargs -d '\n' dirname |
+		sort |
 		xargs -d '\n' stagit-index > "${destdir}/index.html"
 }
 
