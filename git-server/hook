@@ -12,7 +12,8 @@ GIT_DIR=${GIT_DIR:-$(pwd)}
 
 for HOOK in "${GIT_DIR}/hooks/${HOOK_NAME}".d/*; do
 	[ -x "$HOOK" ] || continue
-	echo "Running ${HOOK_NAME} hook: ${HOOK}"
+	HOOK_DISPLAY_NAME = $(basename "$HOOK")
+	echo "Running ${HOOK_NAME} hook: ${HOOK_DISPLAY_NAME}"
 	echo "$DATA" | "$HOOK"
 	EXIT_CODE=$((EXIT_CODE + $?))
 done
