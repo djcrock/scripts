@@ -4,6 +4,11 @@ SCRIPTS_DIR=$(dirname "$(realpath "$0")")
 GIT_DIR="${HOME}/${1}"
 DESCRIPTION=$2
 
+if [ -z "$DESCRIPTION" ]; then
+	printf 'Description: '
+	read DESCRIPTION
+fi
+
 cd "$HOME" || exit 1
 git init --bare "$GIT_DIR"
 mkdir -p "${GIT_DIR}/hooks/post-receive.d"
