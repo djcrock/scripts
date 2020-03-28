@@ -16,6 +16,8 @@ if test "${name}" = ""; then
 	name=$(basename "$(pwd)")
 fi
 
+reponame=$(basename "$name")
+
 # config
 # paths must be absolute.
 reposdir="/home/git"
@@ -26,6 +28,13 @@ destdir="${htmldir}${stagitdir}"
 cachefile=".htmlcache"
 # /config
 
+update-stagit-index()
+{
+	find "$reposdir" -type f -name git-daemon-export-ok |
+		xargs -d '\n' dirname |
+		xargs -d '\n' stagit-index > "${destdir}/index.html"
+}
+
 if ! test -d "${dir}"; then
 	echo "${dir} does not exist" >&2
 	exit 1
@@ -34,6 +43,9 @@ cd "${dir}" || exit 1
 
 # Only build pages for published repos
 if ! test -f "git-daemon-export-ok"; then
+	update-stagit-index
+	# Remove published HTML
+	rm -rf "${destdir}/${reponame}"
 	exit 0
 fi
 
@@ -62,13 +74,10 @@ if test "${ishook}" = "1"; then
 	done
 fi
 
-# strip .git suffix.
-r=$(basename "${name}")
-d=$(basename "${name}" ".git")
-printf "[%s] stagit HTML pages... " "${d}"
+printf "[%s] stagit HTML pages... " "${reponame}"
 
-mkdir -p "${destdir}/${d}"
-cd "${destdir}/${d}" || exit 1
+mkdir -p "${destdir}/${reponame}"
+cd "${destdir}/${reponame}" || exit 1
 
 # remove commits and ${cachefile} on git push -f, this recreated later on.
 if test "${force}" = "1"; then
@@ -76,13 +85,10 @@ if test "${force}" = "1"; then
 	rm -rf "commit"
 fi
 
-# make index.
-find "$reposdir" -type f -name git-daemon-export-ok |
-	xargs -d '\n' dirname |
-	xargs -d '\n' stagit-index > "${destdir}/index.html"
+update-stagit-index
 
 # make pages.
-stagit -c "${cachefile}" "${reposdir}/${r}"
+stagit -c "${cachefile}" "${reposdir}/${reponame}"
 
 ln -sf log.html index.html
 ln -sf ../style.css style.css
