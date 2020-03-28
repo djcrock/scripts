@@ -28,7 +28,7 @@ destdir="${htmldir}${stagitdir}"
 cachefile=".htmlcache"
 # /config
 
-update-stagit-index()
+update_stagit_index()
 {
 	find "$reposdir" -type f -name git-daemon-export-ok |
 		xargs -d '\n' dirname |
@@ -43,7 +43,7 @@ cd "${dir}" || exit 1
 
 # Only build pages for published repos
 if ! test -f "git-daemon-export-ok"; then
-	update-stagit-index
+	update_stagit_index
 	# Remove published HTML
 	rm -rf "${destdir}/${reponame}"
 	exit 0
@@ -85,7 +85,7 @@ if test "${force}" = "1"; then
 	rm -rf "commit"
 fi
 
-update-stagit-index
+update_stagit_index
 
 # make pages.
 stagit -c "${cachefile}" "${reposdir}/${reponame}"
