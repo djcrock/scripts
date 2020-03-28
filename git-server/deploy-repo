@@ -8,7 +8,7 @@ while read old new ref; do
 		git --work-tree="$TEMP_WORK_DIR" --git-dir="$GIT_DIR" checkout -f
 		cd "$TEMP_WORK_DIR"
 		if [ -f ".build/deploy.sh" ]; then
-			chmod +x .build/deploy.sh
+			chmod -R +x .build/
 			.build/deploy.sh
 		fi
 		cd "$GIT_DIR"
