@@ -1,12 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
-SCRIPTS_DIR=$(dirname $(realpath $0))
+SCRIPTS_DIR=$(dirname "$(realpath "$0")")
 REPO=${1}
-GIT_DIR=${HOME}/${REPO}
+GIT_DIR="${HOME}/${REPO}"
 
-touch ${GIT_DIR}/git-daemon-export-ok
-mkdir -p ${GIT_DIR}/hooks/post-receive.d
-ln -sf ${SCRIPTS_DIR}/hook ${GIT_DIR}/hooks/post-receive
-ln -sf ${SCRIPTS_DIR}/update-stagit ${GIT_DIR}/hooks/post-receive.d/
+touch "${GIT_DIR}"/git-daemon-export-ok
+mkdir -p "${GIT_DIR}"/hooks/post-receive.d
+ln -sf "${SCRIPTS_DIR}"/hook "${GIT_DIR}"/hooks/post-receive
+ln -sf "${SCRIPTS_DIR}"/update-stagit "${GIT_DIR}"/hooks/post-receive.d/
 
-${SCRIPTS_DIR}/update-stagit ${REPO}
+"${SCRIPTS_DIR}"/update-stagit "${REPO}"
