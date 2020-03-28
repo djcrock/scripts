@@ -1,0 +1,17 @@
+#!/bin/sh
+GIT_DIR=${GIT_DIR:-$(pwd)}
+BRANCH="master"
+
+while read old new ref; do
+	if [ "$ref" == "refs/heads/${BRANCH}" ]; then
+		TEMP_WORK_DIR=$(mktemp -d)
+		git --work-tree="$TEMP_WORK_DIR" --git-dir="$GIT_DIR" checkout -f
+		cd "$TEMP_WORK_DIR"
+		if [ -f ".build/deploy.sh" ]; then
+			chmod +x .build/deploy.sh
+			.build/deploy.sh
+		fi
+		cd "$GIT_DIR"
+		rm -rf "$TEMP_WORK_DIR"
+	fi
+done
