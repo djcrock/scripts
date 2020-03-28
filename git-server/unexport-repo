@@ -1,0 +1,10 @@
+#!/bin/sh
+
+SCRIPTS_DIR=$(dirname "$(realpath "$0")")
+REPO=${1}
+GIT_DIR="${HOME}/${REPO}"
+
+rm -f "${GIT_DIR}"/git-daemon-export-ok
+rm -f "${GIT_DIR}/hooks/post-receive.d/update-stagit"
+
+"${SCRIPTS_DIR}"/update-stagit "${REPO}"
