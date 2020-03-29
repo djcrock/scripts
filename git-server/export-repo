@@ -9,7 +9,7 @@ mkdir -p "${GIT_DIR}"/hooks/post-receive.d
 ln -sf "${SCRIPTS_DIR}"/hook "${GIT_DIR}"/hooks/post-receive
 ln -sf "${SCRIPTS_DIR}"/update-stagit "${GIT_DIR}"/hooks/post-receive.d/
 
-echo "git://git.crocker.im/${REPO}" > "${GIT_DIR}/url"
+echo "git://git.crocker.im/${REPO%/}" > "${GIT_DIR}/url"
 
 if [ ! -f "${GIT_DIR}/owner" ]; then
 	echo "David Crocker <david@crocker.im>" > "${GIT_DIR}/owner"
