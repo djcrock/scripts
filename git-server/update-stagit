@@ -90,7 +90,7 @@ fi
 update_stagit_index
 
 # make pages.
-stagit -c "${cachefile}" "${reposdir}/${reponame}"
+stagit -c "${cachefile}" "${dir}"
 
 find "${destdir}/${reponame}" -type f -name '*.html' -exec gzip -n -k -f --best '{}' \;
 
