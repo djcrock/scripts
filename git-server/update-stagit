@@ -16,7 +16,7 @@ if test "${name}" = ""; then
 	name=$(basename "$(pwd)")
 fi
 
-reponame=$(basename "$name")
+reponame=$(basename "$name" .git)
 
 # config
 # paths must be absolute.
