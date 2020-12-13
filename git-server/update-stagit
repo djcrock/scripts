@@ -53,7 +53,7 @@ fi
 
 # Set a URL if none exists
 if ! test -f "url"; then
-	echo "git://git.crocker.im/${name%/}" > url
+	echo "git://git.crocker.im/${reponame%/}" > url
 fi
 
 # Set an owner if none exists
