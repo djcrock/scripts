@@ -1,0 +1,35 @@
+#!/bin/sh
+# Print a list of connected bluetooth devices with the format: "address | name"
+AWK_SCRIPT='
+function printDevice() {
+	if (deviceId != "" && connected == "yes") {
+		printf "%s |%s\n", deviceId, deviceName
+	}
+}
+BEGIN {
+	deviceId=""
+	deviceName="<no name>"
+	connected=false
+}
+$1 == "Device" {
+	printDevice()
+	deviceId=$2
+	deviceName="<no name>"
+	connected=false
+}
+$1 == "Name:" {
+	$1=""
+	deviceName=$0
+}
+$1 == "Connected:" {
+	connected=$2
+}
+END {
+	printDevice()
+}
+'
+
+bluetoothctl paired-devices |
+	cut -f2 -d' ' |
+	xargs -n 1 bluetoothctl info |
+	awk "$AWK_SCRIPT"

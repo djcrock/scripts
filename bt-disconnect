@@ -1,0 +1,6 @@
+#!/bin/sh
+# Show a dmenu prompt to disconnect a bluetooth device"
+bt-connected |
+	dmenu -p 'Disconnect bluetooth device' |
+	awk '{ print $1 }' |
+	xargs bluetoothctl disconnect
