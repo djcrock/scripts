@@ -1,0 +1,2 @@
+#!/bin/sh
+redshift -PO 1600 > /dev/null
