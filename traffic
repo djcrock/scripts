@@ -1,0 +1,7 @@
+#!/bin/sh
+grep -m 1 "${1:-enp}" /proc/net/dev \
+	| tr -s ' ' \
+	| cut -d ' ' -f 2,10 \
+	| tr ' ' '\n' \
+	| numfmt --to=iec-i --suffix=B --format='%.2f' \
+	| awk 'NR==1 { print "RX: " $0 } NR==2 {print "TX: " $0 }' | column -t -R 2
