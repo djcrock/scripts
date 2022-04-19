@@ -1,0 +1,4 @@
+#!/bin/sh
+# Show clipboard contents in a QR code
+
+qrencode -s 10 -t PNG -o - "$(xclip -o)" | display
