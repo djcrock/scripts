@@ -1,0 +1,5 @@
+#!/bin/sh
+while inotifywait -qre close_write .
+do
+	"$@"
+done
