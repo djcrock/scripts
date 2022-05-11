@@ -1,0 +1,15 @@
+#!/bin/sh
+# Generate a nice calendar wallpaper
+# Requires ncal and imagemagick
+TARGET_DIR="$HOME/pictures/wallpapers"
+mkdir -p "$TARGET_DIR"
+CAL=$(cal)
+DATE=$(date +%-d)
+CAL_REST=$(printf '%s\n' "$CAL" \
+	| perl -pe 's/^(.*?)(\b'"$DATE"'\b|$)(.*)/$1 . (q[ ] x length $2) . $3/ge')
+CAL_DATE=$(printf '%s\n' "$CAL" \
+	| perl -pe 's/^(.*?)(\b'"$DATE"'\b|$).*/(q[ ] x length $1) . $2/ge')
+convert -size 350x300 xc:black -font DejaVu-Sans-Mono -pointsize 24 \
+	-fill white -draw "text 35,65 '$CAL_REST'" \
+	-fill red   -draw "text 35,65 '$CAL_DATE'" \
+	"$TARGET_DIR/cal.png" \

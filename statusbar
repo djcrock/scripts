@@ -3,5 +3,13 @@ BAT='?'
 if [ -f /sys/class/power_supply/BAT0/capacity ]; then
 	BAT=$(cat /sys/class/power_supply/BAT0/capacity)
 fi
-DATE=$(date +'%Y-%m-%d %l:%M %p')
-printf '%b%% | %b' "$BAT" "$DATE"
+DATE=$(date +'%Y-%m-%d %H:%M')
+
+STATUS=''
+if test "$BAT" != '?'; then
+	STATUS="$STATUS$BAT% | "
+fi
+
+STATUS="$STATUS$DATE"
+
+echo " $STATUS "
