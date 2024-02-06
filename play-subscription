@@ -1,0 +1,4 @@
+#!/bin/sh
+find "$HOME/Videos/youtube" -name '*.mkv' -mtime -6 |
+	fzf --print0 |
+	xargs --no-run-if-empty -0 mpv --fullscreen

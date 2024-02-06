@@ -1,0 +1,12 @@
+#!/bin/sh
+
+youtube-dl \
+	-i \
+	--batch-file "$HOME/Videos/youtube/feeds.txt" \
+	-o "$HOME/Videos/youtube/%(uploader)s/%(upload_date)s - %(title)s - (%(duration)ss) [%(id)s].%(ext)s" \
+	--download-archive "$HOME/Videos/youtube/youtube-dl-archive.txt" \
+	--dateafter now-1week \
+	--prefer-ffmpeg \
+	--merge-output-format mkv \
+	--add-metadata \
+	--no-progress
